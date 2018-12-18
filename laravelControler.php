@@ -16,7 +16,7 @@ class OrganizationController extends Controller
     public function dataTable(Request $request)
     {
         $input = $request->all();
-        return $this->outPut($request->all());
+        return $this->outPut($input);
     }
 
     /**
@@ -28,6 +28,7 @@ class OrganizationController extends Controller
         $list = $this->get_datatables($input);
         $data = array();
         foreach ($list as $key => $mData) {
+            // out  put columns data
             $row[$key][] = $mData->name;
             $row[$key][] = $mData->age;
             $data[] = $row[$key];
@@ -50,8 +51,8 @@ class OrganizationController extends Controller
      */
     function get_datatables($input)
     {
-        //
-        //
+       
+        // pagination  
         if ($input['length'] != -1)
             return DB::select(DB::raw($this->_get_datatables_query($input) . " LIMIT " . $input['length'] . " OFFSET " . $input['start']));
     }
@@ -62,6 +63,8 @@ class OrganizationController extends Controller
      */
     private function _get_datatables_query($input)
     {
+        //  all  mysql  querys  
+        
         $query = '';
         if ($input['search']['value'] != null) {
             $search = $input['search']['value'];
